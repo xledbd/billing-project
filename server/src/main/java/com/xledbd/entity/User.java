@@ -30,6 +30,14 @@ public class User implements Serializable {
 	@Column(name = "access_level")
 	private int accessLevel;
 
+	@Column(name = "ban_status")
+	private int banStatus;
+
+	@Transient
+	private String accessLevelString;
+	@Transient
+	private String banStatusString;
+
 	public User() {	}
 
 	public User(String login, String password) {
@@ -97,5 +105,25 @@ public class User implements Serializable {
 
 	public void setAccessLevel(int accessLevel) {
 		this.accessLevel = accessLevel;
+		if (accessLevel == 0) accessLevelString = "Пользователь";
+		else accessLevelString = "Администратор";
+	}
+
+	public int getBanStatus() {
+		return banStatus;
+	}
+
+	public void setBanStatus(int banStatus) {
+		this.banStatus = banStatus;
+		if (banStatus == 0) banStatusString = "";
+		else banStatusString = "Заблокирован";
+	}
+
+	public String getAccessLevelString() {
+		return accessLevelString;
+	}
+
+	public String getBanStatusString() {
+		return banStatusString;
 	}
 }
