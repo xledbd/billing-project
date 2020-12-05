@@ -67,7 +67,7 @@ public class LoginMenuController {
 	public void changeSceneToSignupView(ActionEvent event) throws IOException {
 		Stage window = (Stage)App.scene.getWindow();
 		window.setTitle("Регистрация");
-		App.setRoot("signup");
+		App.setRoot("signupMenu");
 		window.setScene(App.scene);
 		window.show();
 	}

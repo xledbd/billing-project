@@ -30,6 +30,7 @@ public class ClientThread implements Runnable {
 			while (!"exit".equals(msg)) {
 				switch (msg) {
 					case "signin" -> signin();
+					case "signup" -> signup();
 				}
 				msg = (String)inputStream.readObject();
 			}
@@ -52,6 +53,26 @@ public class ClientThread implements Runnable {
 				e.printStackTrace();
 			}
 			App.print_log("User disconnected...");
+		}
+	}
+
+	private void signup() throws Exception {
+		User user = (User)inputStream.readObject();
+		App.print_log("Trying to sign up as " + user.getLogin() + "...");
+		User ret = null;
+		int res = -1;
+		try {
+			res = DAOFactory.getUserDAO().create(user);
+		} catch (JDBCException e) {
+			e.printStackTrace();
+		}
+		if (res != -1) {
+			App.print_log("Sign up successful...");
+			outputStream.writeObject("true");
+		}
+		else {
+			App.print_log("Sign up failed...");
+			outputStream.writeObject("false");
 		}
 	}
 
