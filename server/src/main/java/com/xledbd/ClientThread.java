@@ -1,6 +1,7 @@
 package com.xledbd;
 
 import com.xledbd.dao.DAOFactory;
+import com.xledbd.dao.UserDAO;
 import com.xledbd.entity.User;
 import org.hibernate.JDBCException;
 
@@ -31,6 +32,8 @@ public class ClientThread implements Runnable {
 				switch (msg) {
 					case "signin" -> signin();
 					case "signup" -> signup();
+					case "edit_user" -> editUser();
+					case "get_users" -> getUsers();
 				}
 				msg = (String)inputStream.readObject();
 			}
@@ -53,6 +56,33 @@ public class ClientThread implements Runnable {
 				e.printStackTrace();
 			}
 			App.print_log("User disconnected...");
+		}
+	}
+
+	private void getUsers() throws Exception {
+		App.print_log("Getting list of users...");
+		List<User> list = DAOFactory.getUserDAO().getList();
+		App.print_log("Sending list to client...");
+		outputStream.writeObject(list);
+	}
+
+	private void editUser() throws Exception {
+		User user = (User) inputStream.readObject();
+		App.print_log("Trying to update user " + user.getLogin() + "...");
+		boolean b = false;
+		try {
+			DAOFactory.getUserDAO().save(user);
+			b = true;
+		} catch (JDBCException e) {
+			e.printStackTrace();
+		}
+		if (b) {
+			App.print_log("User successfully updated...");
+			outputStream.writeObject("true");
+		}
+		else {
+			App.print_log("Update failed...");
+			outputStream.writeObject("false");
 		}
 	}
 
