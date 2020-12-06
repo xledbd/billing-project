@@ -1,6 +1,7 @@
 package com.xledbd;
 
 import com.xledbd.dao.DAOFactory;
+import com.xledbd.entity.PriceHistory;
 import com.xledbd.entity.Service;
 import com.xledbd.entity.User;
 import org.hibernate.JDBCException;
@@ -9,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClientThread implements Runnable {
 
@@ -38,6 +40,7 @@ public class ClientThread implements Runnable {
 					case "remove_service" -> removeService();
 					case "get_users" -> getUsers();
 					case "get_services" -> getServices();
+					case "get_history" -> getHistory();
 				}
 				msg = (String)inputStream.readObject();
 			}
@@ -151,6 +154,17 @@ public class ClientThread implements Runnable {
 	private void getServices() throws Exception {
 		App.print_log("Getting list of services...");
 		List<Service> list = DAOFactory.getServiceDAO().getList();
+		App.print_log("Sending list to client...");
+		outputStream.writeObject(list);
+	}
+
+	private void getHistory() throws Exception {
+		int id = (Integer) inputStream.readObject();
+		App.print_log("Getting price history of service #" + id + "...");
+		List<PriceHistory> list =
+				DAOFactory.getPriceHistoryDAO().getList()
+						.stream().filter(item -> item.getService().getId() == id)
+						.collect(Collectors.toList());
 		App.print_log("Sending list to client...");
 		outputStream.writeObject(list);
 	}

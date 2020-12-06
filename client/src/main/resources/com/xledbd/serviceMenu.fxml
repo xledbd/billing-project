@@ -61,6 +61,11 @@
                                                         <Font name="System Bold" size="14.0" />
                                                     </font>
                                                 </Button>
+                                    <Button mnemonicParsing="false" onAction="#showPriceHistoryView" prefHeight="30.0" prefWidth="140.0" text="История цен">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Button>
                                                 <Label fx:id="editLabel" visible="false">
                                                     <font>
                                                         <Font size="18.0" />
