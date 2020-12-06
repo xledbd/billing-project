@@ -1,7 +1,7 @@
 package com.xledbd;
 
 import com.xledbd.dao.DAOFactory;
-import com.xledbd.dao.UserDAO;
+import com.xledbd.entity.Service;
 import com.xledbd.entity.User;
 import org.hibernate.JDBCException;
 
@@ -32,8 +32,12 @@ public class ClientThread implements Runnable {
 				switch (msg) {
 					case "signin" -> signin();
 					case "signup" -> signup();
+					case "add_service" -> addService();
 					case "edit_user" -> editUser();
+					case "edit_service" -> editService();
+					case "remove_service" -> removeService();
 					case "get_users" -> getUsers();
+					case "get_services" -> getServices();
 				}
 				msg = (String)inputStream.readObject();
 			}
@@ -59,11 +63,22 @@ public class ClientThread implements Runnable {
 		}
 	}
 
-	private void getUsers() throws Exception {
-		App.print_log("Getting list of users...");
-		List<User> list = DAOFactory.getUserDAO().getList();
-		App.print_log("Sending list to client...");
-		outputStream.writeObject(list);
+	private void addService() throws Exception {
+		App.print_log("Trying to add service...");
+		Service service = (Service) inputStream.readObject();
+		int res = -1;
+		try {
+			res = DAOFactory.getServiceDAO().create(service);
+		} catch (JDBCException e) {
+			e.printStackTrace();
+		}
+		if (res != -1) {
+			App.print_log("Service added...");
+			outputStream.writeObject("true");
+		} else {
+			App.print_log("Add service failed...");
+			outputStream.writeObject("false");
+		}
 	}
 
 	private void editUser() throws Exception {
@@ -84,6 +99,60 @@ public class ClientThread implements Runnable {
 			App.print_log("Update failed...");
 			outputStream.writeObject("false");
 		}
+	}
+
+	private void editService() throws Exception {
+		Service service = (Service) inputStream.readObject();
+		App.print_log("Trying to update service " + service.getName() + "...");
+		boolean b = false;
+		try {
+			DAOFactory.getServiceDAO().save(service);
+			b = true;
+		} catch (JDBCException e) {
+			e.printStackTrace();
+		}
+		if (b) {
+			App.print_log("Service successfully updated...");
+			outputStream.writeObject("true");
+		}
+		else {
+			App.print_log("Update service failed...");
+			outputStream.writeObject("false");
+		}
+	}
+
+	private void removeService() throws Exception {
+		int id = (int) inputStream.readObject();
+		App.print_log("Trying to delete service #" + id + "...");
+		boolean b = false;
+		try {
+			DAOFactory.getServiceDAO().delete(id);
+			b = true;
+		} catch (JDBCException e) {
+			e.printStackTrace();
+		}
+		if (b) {
+			App.print_log("Service successfully deleted...");
+			outputStream.writeObject("true");
+		}
+		else {
+			App.print_log("Delete service failed...");
+			outputStream.writeObject("false");
+		}
+	}
+
+	private void getUsers() throws Exception {
+		App.print_log("Getting list of users...");
+		List<User> list = DAOFactory.getUserDAO().getList();
+		App.print_log("Sending list to client...");
+		outputStream.writeObject(list);
+	}
+
+	private void getServices() throws Exception {
+		App.print_log("Getting list of services...");
+		List<Service> list = DAOFactory.getServiceDAO().getList();
+		App.print_log("Sending list to client...");
+		outputStream.writeObject(list);
 	}
 
 	private void signup() throws Exception {

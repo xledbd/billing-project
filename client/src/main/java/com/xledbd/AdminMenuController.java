@@ -14,6 +14,14 @@ public class AdminMenuController implements Initializable {
 	@FXML private Label infoLabel;
 	@FXML private Label loginLabel;
 
+	public void changeSceneToServiceMenu(ActionEvent event) throws IOException {
+		Stage window = (Stage)App.scene.getWindow();
+		window.setTitle("Управление услугами");
+		App.setRoot("serviceMenu");
+		window.setScene(App.scene);
+		window.show();
+	}
+
 	public void changeSceneToUserMenu(ActionEvent event) throws IOException {
 		Stage window = (Stage)App.scene.getWindow();
 		window.setTitle("Управление пользователями");
