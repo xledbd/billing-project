@@ -1,6 +1,7 @@
 package com.xledbd;
 
 import com.xledbd.dao.DAOFactory;
+import com.xledbd.entity.Contract;
 import com.xledbd.entity.PriceHistory;
 import com.xledbd.entity.Service;
 import com.xledbd.entity.User;
@@ -35,6 +36,7 @@ public class ClientThread implements Runnable {
 					case "signin" -> signin();
 					case "signup" -> signup();
 					case "add_service" -> addService();
+					case "add_contract" -> addContract();
 					case "edit_user" -> editUser();
 					case "edit_service" -> editService();
 					case "remove_service" -> removeService();
@@ -80,6 +82,24 @@ public class ClientThread implements Runnable {
 			outputStream.writeObject("true");
 		} else {
 			App.print_log("Add service failed...");
+			outputStream.writeObject("false");
+		}
+	}
+
+	public void addContract() throws Exception {
+		App.print_log("Trying to add contract...");
+		Contract contract = (Contract) inputStream.readObject();
+		int res = -1;
+		try {
+			res = DAOFactory.getContractDAO().create(contract);
+		} catch (JDBCException e) {
+			e.printStackTrace();
+		}
+		if (res != -1) {
+			App.print_log("Contract added...");
+			outputStream.writeObject("true");
+		} else {
+			App.print_log("Add contract failed...");
 			outputStream.writeObject("false");
 		}
 	}

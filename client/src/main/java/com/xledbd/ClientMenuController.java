@@ -22,6 +22,26 @@ public class ClientMenuController implements Initializable {
 		window.show();
 	}
 
+	public void changeSceneToAddContractMenu(ActionEvent event) throws IOException {
+		Stage window = (Stage)App.scene.getWindow();
+		window.setTitle("Выбор услуги");
+		App.setRoot("addContractMenu");
+		window.setScene(App.scene);
+		window.show();
+	}
+
+	public void changeSceneToUserContractMenu(ActionEvent event) throws IOException {
+
+	}
+
+	public void changeSceneToUserInvoiceMenu(ActionEvent event) throws IOException {
+
+	}
+
+	public void changeSceneToUserTransactionMenu(ActionEvent event) throws IOException {
+
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		loginLabel.setText(App.user.getLogin());

@@ -60,13 +60,12 @@ public class ServiceMenuController implements Initializable {
 			if (b.equals("true")) {
 				addLabel.setText("Услуга добавлена");
 				addLabel.setTextFill(Color.GREEN);
-				addLabel.setVisible(true);
 				tableView.setItems(getServiceObservableList());
 			} else {
 				addLabel.setText("Ошибка при добавлени блюда");
 				addLabel.setTextFill(Color.RED);
-				addLabel.setVisible(true);
 			}
+			addLabel.setVisible(true);
 		}
 		nameField.clear();
 		priceField.clear();

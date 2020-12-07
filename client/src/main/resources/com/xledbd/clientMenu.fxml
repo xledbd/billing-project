@@ -12,16 +12,26 @@
     <children>
         <VBox alignment="CENTER" layoutX="175.0" layoutY="119.0" prefHeight="304.0" prefWidth="460.0" spacing="20.0" AnchorPane.bottomAnchor="177.0" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="165.0" AnchorPane.topAnchor="119.0">
             <children>
-                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="250.0" text="Сделать заказ">
+                <Button mnemonicParsing="false" onAction="#changeSceneToAddContractMenu" prefHeight="40.0" prefWidth="250.0" text="Подключить новую услугу">
                     <font>
                         <Font name="System Bold" size="15.0" />
                     </font>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="250.0" text="Просмотр заказов">
+                <Button mnemonicParsing="false" onAction="#changeSceneToUserContractMenu" prefHeight="40.0" prefWidth="250.0" text="Список подключенных услуг">
                     <font>
                         <Font name="System Bold" size="15.0" />
                     </font>
                 </Button>
+            <Button mnemonicParsing="false" onAction="#changeSceneToUserInvoiceMenu" prefHeight="40.0" prefWidth="250.0" text="Список выставленных счетов">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#changeSceneToUserTransactionMenu" prefHeight="40.0" prefWidth="250.0" text="Список транзакций">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
             </children>
         </VBox>
         <HBox alignment="BOTTOM_RIGHT" layoutX="586.0" layoutY="486.0" prefHeight="100.0" prefWidth="400.0" spacing="10.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
