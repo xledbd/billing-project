@@ -39,10 +39,12 @@ public class ClientThread implements Runnable {
 					case "add_contract" -> addContract();
 					case "edit_user" -> editUser();
 					case "edit_service" -> editService();
+					case "edit_contract" -> editContract();
 					case "remove_service" -> removeService();
 					case "get_users" -> getUsers();
 					case "get_services" -> getServices();
 					case "get_history" -> getHistory();
+					case "get_client_contracts" -> getClientContracts();
 				}
 				msg = (String)inputStream.readObject();
 			}
@@ -144,6 +146,26 @@ public class ClientThread implements Runnable {
 		}
 	}
 
+	private void editContract() throws Exception {
+		Contract contract = (Contract) inputStream.readObject();
+		App.print_log("Trying to update contract " + contract.getId() + "...");
+		boolean b = false;
+		try {
+			DAOFactory.getContractDAO().save(contract);
+			b = true;
+		} catch (JDBCException e) {
+			e.printStackTrace();
+		}
+		if (b) {
+			App.print_log("Contract successfully updated...");
+			outputStream.writeObject("true");
+		}
+		else {
+			App.print_log("Update contract failed...");
+			outputStream.writeObject("false");
+		}
+	}
+
 	private void removeService() throws Exception {
 		int id = (int) inputStream.readObject();
 		App.print_log("Trying to delete service #" + id + "...");
@@ -185,6 +207,17 @@ public class ClientThread implements Runnable {
 				DAOFactory.getPriceHistoryDAO().getList()
 						.stream().filter(item -> item.getService().getId() == id)
 						.collect(Collectors.toList());
+		App.print_log("Sending list to client...");
+		outputStream.writeObject(list);
+	}
+
+	private void getClientContracts() throws Exception {
+		int id = (int) inputStream.readObject();
+		App.print_log("Getting list of contracts for user " + id +"...");
+		List<Contract> list =
+				DAOFactory.getContractDAO().getList()
+					.stream().filter(item -> item.getUser().getId() == id)
+					.collect(Collectors.toList());
 		App.print_log("Sending list to client...");
 		outputStream.writeObject(list);
 	}

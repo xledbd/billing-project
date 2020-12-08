@@ -31,7 +31,11 @@ public class ClientMenuController implements Initializable {
 	}
 
 	public void changeSceneToUserContractMenu(ActionEvent event) throws IOException {
-
+		Stage window = (Stage)App.scene.getWindow();
+		window.setTitle("Список услуг");
+		App.setRoot("clientContractMenu");
+		window.setScene(App.scene);
+		window.show();
 	}
 
 	public void changeSceneToUserInvoiceMenu(ActionEvent event) throws IOException {

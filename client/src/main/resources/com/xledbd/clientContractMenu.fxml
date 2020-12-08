@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xledbd.ClientContractMenuController">
+    <bottom>
+        <Button mnemonicParsing="false" onAction="#changeSceneToMainMenu" prefHeight="30.0" prefWidth="208.0" text="Вернуться в главное меню" BorderPane.alignment="BOTTOM_RIGHT">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+            <BorderPane.margin>
+                <Insets bottom="20.0" left="20.0" right="20.0" />
+            </BorderPane.margin>
+        </Button>
+    </bottom>
+    <center>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <HBox prefHeight="521.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <TableView fx:id="tableView" onMouseClicked="#tableRowSelected" prefHeight="545.0" prefWidth="950.0">
+                            <columns>
+                                <TableColumn fx:id="nameColumn" prefWidth="100.0" text="Услуга" />
+                                <TableColumn fx:id="priceColumn" prefWidth="100.0" text="Цена" />
+                                <TableColumn fx:id="balanceColumn" prefWidth="100.0" text="Баланс" />
+                                <TableColumn fx:id="dateFromColumn" prefWidth="122.0" text="Дата подключения" />
+                                <TableColumn fx:id="dateToColumn" prefWidth="133.0" text="Дата отключения" />
+                                <TableColumn fx:id="statusColumn" prefWidth="75.0" text="Статус" />
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+                        </TableView>
+                        <VBox fx:id="editVBox" alignment="CENTER" prefHeight="516.0" prefWidth="250.0" spacing="10.0">
+                            <children>
+                                <TextField fx:id="balanceField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" promptText="Сумма">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                </TextField>
+                                <Button mnemonicParsing="false" onAction="#depositButtonPressed" prefHeight="30.0" prefWidth="140.0" text="Пополнить баланс">
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
+                                </Button>
+                                <Button fx:id="disableButton" mnemonicParsing="false" onAction="#disableButtonPressed" prefHeight="30.0" prefWidth="140.0" text="Отключить">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Button>
+                                <Button mnemonicParsing="false" onAction="#showContractTransactionHistoryView" prefHeight="30.0" prefWidth="140.0" text="История транзакций">
+                                    <font>
+                                        <Font name="System Bold" size="12.0" />
+                                    </font>
+                                </Button>
+                                <Label fx:id="editLabel" visible="false">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="5.0" />
+                    </padding>
+                </HBox>
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>

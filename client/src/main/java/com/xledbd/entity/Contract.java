@@ -11,7 +11,6 @@ public class Contract implements Serializable {
 	private double balance;
 	private LocalDate dateFrom;
 	private LocalDate dateTo;
-	private LocalDate lastInvoice;
 	private boolean active;
 
 	public int getId() {
@@ -62,19 +61,20 @@ public class Contract implements Serializable {
 		this.dateTo = dateTo;
 	}
 
-	public LocalDate getLastInvoice() {
-		return lastInvoice;
-	}
-
-	public void setLastInvoice(LocalDate lastInvoice) {
-		this.lastInvoice = lastInvoice;
-	}
-
 	public boolean isActive() {
 		return active;
 	}
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public String getServiceName() { return service.getName(); }
+
+	public String getServicePrice() { return Double.toString(service.getPrice()); }
+
+	public String getStatus() {
+		if (!isActive()) return "Заблокирована";
+		else return "Подключена";
 	}
 }

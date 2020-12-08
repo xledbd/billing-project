@@ -32,9 +32,6 @@ public class Contract implements Serializable {
 	@Column(name = "date_to")
 	private LocalDate dateTo;
 
-	@Column(name = "last_invoice")
-	private LocalDate lastInvoice;
-
 	@Column(name = "is_active")
 	private boolean active;
 
@@ -86,19 +83,23 @@ public class Contract implements Serializable {
 		this.dateTo = dateTo;
 	}
 
-	public LocalDate getLastInvoice() {
-		return lastInvoice;
-	}
-
-	public void setLastInvoice(LocalDate lastInvoice) {
-		this.lastInvoice = lastInvoice;
-	}
-
 	public boolean isActive() {
 		return active;
 	}
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	@Transient
+	public String getServiceName() { return service.getName(); }
+
+	@Transient
+	public String getServicePrice() { return Double.toString(service.getPrice()); }
+
+	@Transient
+	public String getStatus() {
+		if (!isActive()) return "Заблокирована";
+		else return "Подключена";
 	}
 }
