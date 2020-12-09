@@ -1,11 +1,13 @@
 package com.xledbd.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "invoice")
-public class Invoice {
+public class Invoice implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -77,5 +79,28 @@ public class Invoice {
 
 	public void setResult(boolean result) {
 		this.result = result;
+	}
+
+	@Transient
+	public String getService() {
+		return contract.getServiceName();
+	}
+
+	@Transient
+	public LocalDateTime getTdate() {
+		return transaction.getDate();
+	}
+
+	@Transient
+	public String getTransactionId() {
+		return Integer.toString(transaction.getId());
+	}
+
+	@Transient
+	public String getResultString() {
+		if (result)
+			return "Оплачено";
+		else
+			return "Ошибка";
 	}
 }

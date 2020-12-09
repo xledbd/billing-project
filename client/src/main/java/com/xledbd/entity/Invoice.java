@@ -1,8 +1,11 @@
 package com.xledbd.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
-public class Invoice {
+public class Invoice implements Serializable {
 
 	private int id;
 	private Contract contract;
@@ -57,5 +60,30 @@ public class Invoice {
 
 	public void setResult(boolean result) {
 		this.result = result;
+	}
+
+	public String getService() {
+		return contract.getServiceName();
+	}
+
+	public LocalDateTime getTdate() {
+		if (transaction != null)
+			return transaction.getDate();
+		else
+			return LocalDateTime.of(date, LocalTime.of(23,59,59));
+	}
+
+	public String getTransactionId() {
+		if (transaction != null)
+			return Integer.toString(transaction.getId());
+		else
+			return "";
+	}
+
+	public String getResultString() {
+		if (result)
+			return "Оплачено";
+		else
+			return "Ошибка";
 	}
 }

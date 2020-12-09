@@ -43,6 +43,7 @@ public class ClientThread implements Runnable {
 					case "get_history" -> getHistory();
 					case "get_transactions" -> getTransactions();
 					case "get_client_contracts" -> getClientContracts();
+					case "get_client_invoices" -> getClientInvoices();
 					case "get_contract_transactions" -> getContractTransactions();
 				}
 				msg = (String)inputStream.readObject();
@@ -224,6 +225,17 @@ public class ClientThread implements Runnable {
 				DAOFactory.getContractDAO().getList()
 					.stream().filter(item -> item.getUser().getId() == id)
 					.collect(Collectors.toList());
+		App.print_log("Sending list to client...");
+		outputStream.writeObject(list);
+	}
+
+	private void getClientInvoices() throws Exception {
+		int id = (int) inputStream.readObject();
+		App.print_log("Getting list of invoices for user " + id +"...");
+		List<Invoice> list =
+				DAOFactory.getInvoiceDAO().getList()
+				.stream().filter(item -> item.getContract().getUser().getId() == id)
+				.collect(Collectors.toList());
 		App.print_log("Sending list to client...");
 		outputStream.writeObject(list);
 	}

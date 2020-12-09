@@ -17,16 +17,26 @@
                         <Font name="System Bold" size="15.0" />
                     </font>
                 </Button>
-                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="250.0" text="Управление списком блюд">
+                <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="250.0" text="Управление договорами">
                     <font>
                         <Font name="System Bold" size="15.0" />
                     </font>
                 </Button>
+            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="250.0" text="Список транзакций">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
                 <Button fx:id="userEditButton" mnemonicParsing="false" onAction="#changeSceneToUserMenu" prefHeight="40.0" prefWidth="250.0" text="Управление пользователями">
                     <font>
                         <Font name="System Bold" size="15.0" />
                     </font>
                 </Button>
+            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="250.0" text="Статистика использования приложения">
+               <font>
+                  <Font name="System Bold" size="11.0" />
+               </font>
+            </Button>
             </children>
         </VBox>
         <HBox alignment="BOTTOM_RIGHT" layoutX="586.0" layoutY="486.0" prefHeight="100.0" prefWidth="400.0" spacing="10.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">

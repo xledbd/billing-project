@@ -32,7 +32,7 @@
                                             <TableColumn fx:id="idColumn" prefWidth="100.0" text="Номер" />
                                             <TableColumn fx:id="typeColumn" prefWidth="100.0" text="Тип операции" />
                                             <TableColumn fx:id="serviceColumn" prefWidth="100.0" text="Услуга" />
-                                            <TableColumn fx:id="amountColumn" prefWidth="122.0" text="Величина" />
+                                            <TableColumn fx:id="amountColumn" prefWidth="122.0" text="Сумма" />
                                             <TableColumn fx:id="dateColumn" prefWidth="133.0" text="Дата транзакции" />
                                         </columns>
                                         <columnResizePolicy>

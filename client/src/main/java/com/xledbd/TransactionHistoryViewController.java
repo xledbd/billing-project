@@ -6,10 +6,8 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -23,11 +21,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.List;
 
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import org.apache.poi.xwpf.usermodel.*;
 
 public class TransactionHistoryViewController {
@@ -92,13 +87,12 @@ public class TransactionHistoryViewController {
 		row.getCell(0).setText("Номер");
 		row.getCell(1).setText("Тип операции");
 		row.getCell(2).setText("Услуга");
-		row.getCell(3).setText("Величина");
+		row.getCell(3).setText("Сумма");
 		row.getCell(4).setText("Дата");
 		for (int i = 0; i < list.size(); i++)
 		{
 			row = table.getRow(i + 1);
 			Transaction transaction = list.get(i);
-			System.out.println(transaction);
 			row.getCell(0).setText(Integer.toString(transaction.getId()));
 			row.getCell(1).setText(transaction.getType());
 			row.getCell(2).setText(transaction.getService());
@@ -210,14 +204,14 @@ public class TransactionHistoryViewController {
 			depositPieChart.getData().forEach(data ->
 					data.nameProperty().bind(
 							Bindings.concat(
-									data.getName(), " ", data.pieValueProperty(), " руб."
+									data.getName(), ", ", data.pieValueProperty(), " руб."
 							)
 					)
 			);
 			invoicePieChart.getData().forEach(data ->
 					data.nameProperty().bind(
 							Bindings.concat(
-									data.getName(), " ", data.pieValueProperty(), " руб."
+									data.getName(), ", ", data.pieValueProperty(), " руб."
 							)
 					)
 			);
