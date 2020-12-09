@@ -53,6 +53,13 @@ public class TransactionHistoryViewController {
 		XWPFDocument document = new XWPFDocument();
 		FileOutputStream out = new FileOutputStream(new File(selectedPath + "\\transaction_report.docx"));
 
+		int depCount = 0;
+		for (Transaction transaction: list) {
+			if ("Пополнение счета".equals(transaction.getType())) {
+				++depCount;
+			}
+		}
+
 		XWPFParagraph paragraph = document.createParagraph();
 		paragraph.setAlignment(ParagraphAlignment.CENTER);
 		XWPFRun run = paragraph.createRun();
@@ -60,6 +67,18 @@ public class TransactionHistoryViewController {
 		run.setFontFamily("Times New Roman");
 		run.setFontSize(14);
 		run.setText("Список транзакций");
+		run.addCarriageReturn();
+
+		paragraph = document.createParagraph();
+		paragraph.setAlignment(ParagraphAlignment.LEFT);
+		run = paragraph.createRun();
+		run.setFontFamily("Times New Roman");
+		run.setFontSize(14);
+		run.setText("Количество транзакций: " + list.size());
+		run.addCarriageReturn();
+		run.setText("Количество пополнений счета: " + depCount);
+		run.addCarriageReturn();
+		run.setText("Количество оплат: " + (list.size() - depCount));
 		run.addCarriageReturn();
 
 		XWPFTable table = document.createTable(list.size() + 1, 5);
