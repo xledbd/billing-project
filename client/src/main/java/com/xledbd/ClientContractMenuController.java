@@ -1,16 +1,22 @@
 package com.xledbd;
 
 import com.xledbd.entity.Contract;
+import com.xledbd.entity.Transaction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -99,7 +105,19 @@ public class ClientContractMenuController implements Initializable {
 	}
 
 	public void showContractTransactionHistoryView(ActionEvent event) throws Exception {
+		FXMLLoader loader = new FXMLLoader(App.class.getResource("transactionHistoryView.fxml"));
+		Parent parent = loader.load();
 
+		Scene scene = new Scene(parent);
+		Stage popupStage = new Stage();
+
+		TransactionHistoryViewController controller = loader.getController();
+		controller.initData(tableView.getSelectionModel().getSelectedItem());
+
+		popupStage.initOwner(((Node)event.getSource()).getScene().getWindow());
+		popupStage.initModality(Modality.WINDOW_MODAL);
+		popupStage.setScene(scene);
+		popupStage.showAndWait();
 	}
 
 	public ObservableList<Contract> getClientContractList() {

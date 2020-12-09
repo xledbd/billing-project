@@ -1,10 +1,7 @@
 package com.xledbd;
 
 import com.xledbd.dao.DAOFactory;
-import com.xledbd.entity.Contract;
-import com.xledbd.entity.PriceHistory;
-import com.xledbd.entity.Service;
-import com.xledbd.entity.User;
+import com.xledbd.entity.*;
 import org.hibernate.JDBCException;
 
 import java.io.ObjectInputStream;
@@ -44,7 +41,9 @@ public class ClientThread implements Runnable {
 					case "get_users" -> getUsers();
 					case "get_services" -> getServices();
 					case "get_history" -> getHistory();
+					case "get_transactions" -> getTransactions();
 					case "get_client_contracts" -> getClientContracts();
+					case "get_contract_transactions" -> getContractTransactions();
 				}
 				msg = (String)inputStream.readObject();
 			}
@@ -211,6 +210,13 @@ public class ClientThread implements Runnable {
 		outputStream.writeObject(list);
 	}
 
+	private void getTransactions() throws Exception {
+		App.print_log("Getting list of transactions...");
+		List<Transaction> list = DAOFactory.getTransactionDAO().getList();
+		App.print_log("Sending list to client...");
+		outputStream.writeObject(list);
+	}
+
 	private void getClientContracts() throws Exception {
 		int id = (int) inputStream.readObject();
 		App.print_log("Getting list of contracts for user " + id +"...");
@@ -218,6 +224,35 @@ public class ClientThread implements Runnable {
 				DAOFactory.getContractDAO().getList()
 					.stream().filter(item -> item.getUser().getId() == id)
 					.collect(Collectors.toList());
+		App.print_log("Sending list to client...");
+		outputStream.writeObject(list);
+	}
+
+	private void getContractTransactions() throws Exception {
+		int id = (int) inputStream.readObject();
+		int userId = (int) inputStream.readObject();
+		App.print_log("Getting list of transactions for contract " + id +"...");
+		List<Transaction> list;
+		if (id != 0) {
+			list = DAOFactory.getTransactionDAO().getList()
+					.stream().filter(item -> {
+						if (item.getContractFrom() == null) {
+							return item.getContractTo().getId() == id;
+						} else
+							return item.getContractFrom().getId() == id;
+					}).collect(Collectors.toList());
+		}
+		else {
+			list = DAOFactory.getTransactionDAO().getList();
+			if (DAOFactory.getUserDAO().get(userId).getAccessLevel() == 0) {
+				list = list.stream().filter(item -> {
+					if (item.getContractFrom() == null) {
+						return item.getContractTo().getUser().getId() == userId;
+					} else
+						return item.getContractFrom().getUser().getId() == userId;
+				}).collect(Collectors.toList());
+			}
+		}
 		App.print_log("Sending list to client...");
 		outputStream.writeObject(list);
 	}

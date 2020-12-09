@@ -66,4 +66,18 @@ public class Transaction implements Serializable {
 	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
+
+	@Transient
+	public String getType() {
+		if (contractFrom == null) return "Пополнение счета";
+		else return "Оплата";
+	}
+
+	@Transient
+	public String getService() {
+		Contract contract;
+		if (contractFrom != null) contract = contractFrom;
+		else contract = contractTo;
+		return contract.getServiceName();
+	}
 }
